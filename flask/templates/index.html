@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="utf-8" />
+  <title>Room weather!</title>
+  <link type="text/css" rel="stylesheet"
+        href="{{ url_for('static',
+              filename='hello.css')}}" />
+</head>
+<body>
+
+<h1>Room weather data</h1>
+
+{%for key in current_data%}
+       {{key}} = {{current_data[key]}} <br>
+{%endfor%}
+
+<button onClick="window.location.reload();">Refresh Page</button> <br>
+
+---------------------------- <br>
+
+dates in form example : 18/09/19 01:55:19  <br>
+<form form action="{{'/get_specific'}}" method="post">
+      <label for="from">from:</label>
+      <input type="text" id="from" name="from"><br>
+      <label for="to">to:</label>
+      <input type="text" id="to" name="to"> <br>
+      <input type="submit" value="Submit"> <br>
+      ---------------------------- <br>
+      <input type="submit" name="last year" value="Last Year">
+      <input type="submit" name="last month" value="Last Month">
+      <input type="submit" name="last week" value="Last Week">
+      <input type="submit" name="last day" value="Last Day">
+      <input type="submit" name="last 8 hours" value="Last 8 hours">
+      <input type="submit" name="last hour" value="Last Hour">
+</form>
+
+
+
+
+
+{%for img in imgs%}
+      <img src={{img}} alt={{ img.split('.')[0] }} >
+{%endfor%}
+
+</body>
+</html>
