@@ -12,7 +12,7 @@
 <h1>Room weather data</h1>
 
 {%for key in current_data%}
-       {{key}} = {{current_data[key]}} <br>
+       {{key}} = {{current_data[key]}} {{ units[key] }}<br>
 {%endfor%}
 
 <button onClick="window.location.reload();">Refresh Page</button> <br>

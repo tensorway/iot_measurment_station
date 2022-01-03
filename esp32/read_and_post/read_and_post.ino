@@ -96,16 +96,16 @@ void loop() {
       // Data to send with HTTP POST
       String httpRequestData  = "temperature="    + String(temp_event.temperature);
              httpRequestData += "&pressure="      + String(pressure_event.pressure);
-                // esp32 for some reason undoes this 
-      pinMode(PHOTORESISTOR_PIN, INPUT);
-             httpRequestData += "&brightness="    + String(4023-analogRead(PHOTORESISTOR_PIN));
+             httpRequestData += "&brightness="    + String(4095-analogRead(PHOTORESISTOR_PIN));
              httpRequestData += "&humidity_soil=" + String(analogRead(SOIL_SENSOR_PIN));
             
       // Send HTTP POST request
       Serial.print("sending: ");
       Serial.print(httpRequestData);
       Serial.print("    HTTP Response code: ");
+      digitalWrite(LED_BUILTIN, 1);
       Serial.println(http.POST(httpRequestData));
+      digitalWrite(LED_BUILTIN, 0);
       http.end();
     }
     

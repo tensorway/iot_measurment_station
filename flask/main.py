@@ -7,6 +7,7 @@ from dateutil import tz
 import matplotlib.pyplot as plt
 import glob
 
+plt.style.use('dark_background')
 FROM_ZONE = tz.gettz('UTC')         # time zone in which time.time() is (unix timestamp)
 TO_ZONE = tz.gettz('Europe/Zegreb') # current time zone
 
@@ -18,12 +19,18 @@ OUTPUT_FILE = 'data.txt'
 KEY_WIDTH = 10
 IMGS_PATH = 'static/'
 humidity_threshold = 1000
+units = {'brightness':'', 'pressure':'kPa', 'humidity':'', 'temperature':'°C'}
 data = [] 
 
 @app.route("/")
 def main(tfrom=float('-inf'), tto=float('inf')):
     make_imgs(data, tfrom=tfrom, tto=tto)
-    return render_template('index.html', imgs=glob.glob('static/*.png'), current_data=data[-1][0])
+    return render_template(
+        'index.html', 
+        imgs=glob.glob('static/*.png'), 
+        current_data=data[-1][0], 
+        units=units
+    )
 
 @app.route('/get_specific', methods=['POST'])
 def get_specific():
@@ -94,6 +101,7 @@ def make_imgs(data, tfrom=float('-inf'), tto=float('inf')):
         x, y = data2xy(data, k, tfrom, tto)
         plt.plot(x, y)
         plt.xlabel('time')
+        plt.xticks(rotation = -20) # Rotates X-Axis Ticks by 45-degrees
         plt.ylabel(k)
         plt.title(k)
         plt.savefig(IMGS_PATH + k + '.png')
